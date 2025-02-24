@@ -9,27 +9,38 @@ import {
 } from "react-native";
 import api from "../axios/axios";
 
-export default function Login() {
+export default function Cadastro() {
   const [user, setUser] = useState({
+    name: "",
     email: "",
+    cpf: "",
+    data_nascimento: "",
     password: "",
   });
 
-  async function handleLogin() {
-    await api.postLogin(user).then(
+  async function handleCadastro() {
+    await api.postCadastro(user).then(
       (response) => {
         console.log(response.data.message);
-        Alert.alert(response.data.message);
+        Alert.alert('OK', response.data.message);
       },
       (error) => {
-        console.log(error.response.data.error);
+        Alert.alert('Erro', error.response.data.error);
       }
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Faça Login</Text>
+      <Text style={styles.title}>Faça o Cadastro</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome:"
+        value={user.name}
+        onChangeText={(value) => {
+          setUser({...user, name: value })
+        }}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -40,14 +51,30 @@ export default function Login() {
       />
       <TextInput
         style={styles.input}
+        placeholder="CPF:"
+        value={user.cfp}
+        onChangeText={(value) => {
+          setUser({...user, cpf: value })
+        }}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Data de Nascimento:"
+        value={user.data_nascimento}
+        onChangeText={(value) => {
+          setUser({...user, data_nascimento: value })
+        }}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Senha"
         value={user.password}
         onChangeText={(value) => {
           setUser({...user, password: value })
         }}
       />
-      <TouchableOpacity onPress={handleLogin} style={styles.button}>
-        <Text>Entrar</Text>
+      <TouchableOpacity onPress={handleCadastro} style={styles.button}>
+        <Text>Cadastrar</Text>
       </TouchableOpacity>
     </View>
   );
