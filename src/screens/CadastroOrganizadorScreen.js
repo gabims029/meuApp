@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Button} from "react-native";
 import api from "../axios/axios";
 
-export default function Login({navigation}) {
-  const [user, setUser] = useState({
+export default function CadastroOrganizador({navigation}) {
+  const [organizador, setUser] = useState({
+    telefone: "",
     email: "",
-    password: "",
+    senha:"",
+    nome:"",
   });
 
-  async function handleLogin(){
-    await api.postLogin(user).then(
+  async function handleCadastroOrganizadorScreen(){
+    await api.postCadastroOrganizador(organizador).then(
         (response)=>{
             console.log(response.data.message)
             Alert.alert('OK', response.data.message)
-            navigation.navigate("Home")
         },(error)=>{
             Alert.alert('Erro', error.response.data.error)
         }
@@ -22,7 +23,13 @@ export default function Login({navigation}) {
 
   return(
     <View style={styles.container}>
-        <Text style={styles.title}>Faça Login</Text>
+        <Text style={styles.title}>Faça Cadastro do Organizador</Text>
+        <TextInput 
+        style={styles.input}
+        placeholder="Nome"
+        value={user.nome}
+        onChangeText={(value)=> {setUser({...user, nome:value})}}
+        />
         <TextInput 
         style={styles.input}
         placeholder="Email"
@@ -31,14 +38,19 @@ export default function Login({navigation}) {
         />
         <TextInput 
         style={styles.input}
+        placeholder="Telefone"
+        value={user.telefone}
+        onChangeText={(value)=> {setUser({...user, telefone:value})}}
+        />
+        <TextInput 
+        style={styles.input}
         placeholder="Senha"
         value={user.password}
         onChangeText={(value)=> {setUser({...user, password:value})}}
         />
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-            <Text>Entrar</Text>
+        <TouchableOpacity onPress={handleCadastroOrganizadorScreen} style={styles.button}>
+            <Text>Cadastrar</Text>
         </TouchableOpacity>
-        <Button title="Cadastro" onPress={()=> navigation.navigate("Cadastro")}/>
         
     </View>
   )
