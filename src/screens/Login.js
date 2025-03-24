@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Button} from "react-native";
 import api from "../axios/axios";
 import {Ionicons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
 
-export default function Login({navigation}) {
+export default function Login() {
+  const navigation = useNavigation();
   const [user, setUser] = useState({
     email: "",
     password: "",
-    showPassword:false
+    showPassword: false
   });
 
   async function handleLogin(){
@@ -36,11 +38,11 @@ export default function Login({navigation}) {
         style={styles.passwordInput}
         placeholder="Senha"
         value={user.password}
-        secureTextEntry={user.showPassword}
+        secureTextEntry={!user.showPassword}
         onChangeText={(value)=> {setUser({...user, password:value})}}
         />
-        <TouchableOpacity onPress={() => setUser({ ...user, showPassword: !user.showPassword })}>
-          <Ionicons name={user.showPassword?"eye-off":"eye"} size={24} color="gray"/>
+        <TouchableOpacity onPress={()=> setUser({...user, showPassword:!user.showPassword})}>
+          <Ionicons name={user.showPassword?"eye":"eye-off"} size={20} color="grey"/>
         </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
@@ -58,32 +60,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+    padding: 20,
+    width:"100%"
   },
   title:{
     fontSize:28,
     fontWeight: 'bold'
   },
   input:{
-    width:'100%',
-    height:40,
+    width: "100%",
+    height: 40,
     borderBottomWidth:1,
-    marginBottom:20,
-    paddingHorizontal:10
+    marginBottom: 20,
+    paddingHorizontal: 10,
   },
   button:{
     backgroundColor:'royalblue',
     padding:10,
-    borderRadius:5
+    borderRadius:3,
   },
   passwordContainer:{
     flexDirection:"row",
     alignItems:"center",
     width:"100%",
-    borderBottomWidth: 1,
-    paddingRight: 10,
+    borderBottomWidth:1,
+    paddingRight: 10
   },
   passwordInput:{
-    flex: 1,
-    height: 40,
+    flex:1,
+    height:40,
   }
 });
