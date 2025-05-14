@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import {View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Button} from "react-native";
 import api from "../axios/axios";
+import DateTimePicker from "../components/DateTimePicker";
 
 export default function CadastroEvento({navigation}) {
-  const [evento, setUser] = useState({
+  const [evento, setEvento] = useState({
     nome: "",
     descricao: "",
     data_hora:"",
@@ -30,31 +31,41 @@ export default function CadastroEvento({navigation}) {
         style={styles.input}
         placeholder="Evento"
         value={evento.nome}
-        onChangeText={(value)=> {setUser({...evento, nome:value})}}
+        onChangeText={(value)=> {setEvento({...evento, nome:value})}}
         />
         <TextInput 
         style={styles.input}
         placeholder="Descrição"
         value={evento.descricao}
-        onChangeText={(value)=> {setUser({...evento, descricao:value})}}
+        onChangeText={(value)=> {setEvento({...evento, descricao:value})}}
         />
         <TextInput 
         style={styles.input}
         placeholder="Data e Hora"
         value={evento.data_hora}
-        onChangeText={(value)=> {setUser({...evento, data_hora:value})}}
+        onChangeText={(value)=> {setEvento({...evento, data_hora:value})}}
+        />
+        <DateTimePicker
+        type={"datetime"}
+        buttonTitle={
+          evento.data_hora === ""
+          ? "Selecione a data do Evento"
+          : evento.data_hora.toLocaleString()
+        }
+        setValue={setEvento}
+        dateKey={"data_hora"}
         />
         <TextInput 
         style={styles.input}
         placeholder="Local"
         value={evento.local}
-        onChangeText={(value)=> {setUser({...evento, local:value})}}
+        onChangeText={(value)=> {setEvento({...evento, local:value})}}
         />
         <TextInput 
         style={styles.input}
         placeholder="Id Organizador"
         value={evento.fk_id_organizador}
-        onChangeText={(value)=> {setUser({...evento, fk_id_organizador:value})}}
+        onChangeText={(value)=> {setEvento({...evento, fk_id_organizador:value})}}
         />
         <TouchableOpacity onPress={handleCadastroEvento} style={styles.button}>
             <Text>Cadastrar Evento</Text>
